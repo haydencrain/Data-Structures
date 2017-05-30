@@ -15,7 +15,7 @@ typedef struct Node {
 /*******************************************************************************
 Function Prototypes
 *******************************************************************************/
-void Insert(Node_t** headPtr, int x);
+void InsertAtNth(Node_t** headPtr, int data, int n);
 void Print(Node_t* head);
 
 /*******************************************************************************
@@ -24,24 +24,37 @@ Main
 int main() {
   Node_t* head = NULL;
   printf("How many numbers? > ");
-  int n, i, x;
+  int n, i, x, y;
   scanf("%d", &n);
   for (i = 0; i < n; i++) {
     printf("Enter the number > ");
     scanf("%d", &x);
-    Insert(&head, x);
+    printf("Where should it be placed? > ");
+    scanf("%d", &y);
+    InsertAtNth(&head, x, y);
     Print(head);
   }
 }
 
 /*******************************************************************************
-Insert Function
+Insert at nth position Function
 *******************************************************************************/
-void Insert(Node_t** headPtr, int x) {
-  Node_t* temp = (Node_t*)malloc(sizeof(Node_t));
-  temp->data = x;
-  temp->next = *headPtr;
-  *headPtr = temp;
+void InsertAtNth(Node_t** headPtr, int data, int n) {
+  Node_t* temp1 = (Node_t*)malloc(sizeof(Node_t));
+  temp1->data = data;
+  temp1->next = NULL;
+  if (n == 0) {
+    temp1->next = *headPtr;
+    *headPtr = temp1;
+    return;
+  }
+  Node_t* temp2 = *headPtr;
+  int i;
+  for (i = 0; i < n - 1; i++) {
+    temp2 = temp2->next;
+  }
+  temp1->next = temp2->next;
+  temp2->next = temp1;
 }
 
 /*******************************************************************************
